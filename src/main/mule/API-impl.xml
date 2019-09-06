@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+	<flow name="getAllShipsFlow" doc:id="1b688f3d-b521-4d38-9bbd-c8fd564bea36" >
+		<scatter-gather doc:name="Scatter-Gather" doc:id="9e4317d8-f72f-47a7-a586-f3c9730fbf74" >
+			<route >
+				<db:select doc:name="SEL_ALL = Ships" doc:id="8ac3681d-e61e-44a9-bcf0-19517fefb361" config-ref="Database_Config">
+			<db:sql>SELECT * FROM ships</db:sql>
+		</db:select>
+			</route>
+			<route >
+				<db:select doc:name="SEL_ALL = Members" doc:id="46306074-f785-4926-a662-40693ad62e4c" config-ref="Database_Config">
+			<db:sql>SELECT * FROM crewmembers</db:sql>
+		</db:select>
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="DBs to JSON" doc:id="8e3473e2-f92c-4872-9a40-316b821984bd" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+using (ships = payload."0".payload map ( payload01 , indexOfPayload01 ) -> {
+	idShip: payload01.idship,
+	nameShip: payload01.nameship default "",
+	crewSize: payload01.crewsize default 0,
+	speed: payload01.speed default 0,
+
+	members:	 payload."0".payload filter ($.idship == payload."0".payload.idShip)
+	 map ((payload01 , indexOfPayload01) -> {
+		idMember: payload01.idmember,
+		nameMember: payload01.namemember,
+		rank: payload01.rankmember,
+		idShip: payload01.idship
+	}) 
+})
+ships]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="getShipByIDFlow" doc:id="4c5b64b2-aa0c-4a1e-957b-c15d98afbc84" >
+		<scatter-gather doc:name="Scatter-Gather" doc:id="8cd86169-2411-4acc-824c-ba5bfe785a4a" >
+			<route >
+				<db:select doc:name="SEL_WHERE idShip = Ship" doc:id="4aa1e5e5-6dd2-4bf4-bef0-a5a2478b9e3f" config-ref="Database_Config">
+			<db:sql>SELECT * FROM ships WHERE idship = :idShip</db:sql>
+					<db:input-parameters ><![CDATA[#[idShip: attributes.uriParams.idShip]]]></db:input-parameters>
+		</db:select>
+			</route>
+			<route >
+				<flow-ref doc:name="Flow Ref to getMembersFlow" doc:id="eba6d632-fbc1-45ff-8393-97be40e21517" name="getMembersFlow"/>
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="DBs to JSON" doc:id="c781bd06-02bb-4f4f-8334-5891b9445d6f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	idShip: payload."0".payload[0].idship,
+	nameShip: payload."0".payload[0].nameship default "",
+	crewSize: payload."0".payload[0].crewsize default 0,
+	speed: payload."0".payload[0].speed default 0,
+	members: payload."1".payload map ( payload01 , indexOfPayload01 ) -> {
+		idMember: payload01.idMember,
+		nameMember: payload01.nameMember,
+		rank: payload01.rankMember,
+		idShip: payload01.idShip
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="352b26da-7393-4e13-ab9f-a47f3d671768" />
+	</flow>
+	<flow name="getMembersFlow" doc:id="f7e1719c-c9da-4498-a54a-61d912da3452" >
+		<db:select doc:name="SEL_WHERE idShip = Member" doc:id="57f75004-540a-4abe-8657-647221e342fe" config-ref="Database_Config">
+			<db:sql>SELECT * FROM crewmembers WHERE idship = :idShip</db:sql>
+			<db:input-parameters><![CDATA[#[idShip :attributes.uriParams.idShip]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="DB to JSON" doc:id="8af87017-07ad-487c-94ed-0341326d8f4b">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map ( payload01 , indexOfPayload01 ) -> {
+	idMember: payload01.idmember,
+	nameMember: payload01.namemember default "",
+	rankMember: payload01.rankmember default 0,
+	idShip: payload01.idship default 0
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="c2543da8-deaf-4fba-98d2-9851548bbe19" />
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="35d24109-8bb1-4ce7-9bc4-fb325757a138" >
+				<logger level="INFO" doc:name="Logger" doc:id="e5742310-a3b6-430a-be02-b972b4a210df" message="#['xxxxxxxxxxxxxxxx ' ++ attributes.uriParams.idShip as Number]"/>
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>

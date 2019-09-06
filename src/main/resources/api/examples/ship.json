@@ -1,0 +1,21 @@
+{
+  "idShip": 1,
+  "nameShip":"USS Enterprise",
+  "crewSize":600,
+  "speed": 9.8,
+  "members": 
+  	[
+      {
+      "idMember":1,
+      "nameMember": "Capitan Kirk",
+      "rank":10,
+      "idShip": 1
+      },
+      {
+      "idMember":2,
+      "nameMember": "Capitan Spok",
+      "rank":10,
+      "idShip": 1
+      }
+    ]
+}

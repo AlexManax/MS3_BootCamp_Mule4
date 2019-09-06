@@ -1,0 +1,107 @@
+#%RAML 1.0
+title: SpaceShips
+version: 1.0
+baseUri: www.SpaceShips.com
+
+securitySchemes:
+  BAuth_1: !include securitySchemes/BAuth_1_0.raml
+
+traits:
+  errorsThrows: !include traits/errorsThrows.raml
+
+types:
+  typeShip: !include types/typeShip.raml
+  typeMember: !include types/typeMember.raml
+securedBy: [BAuth_1]
+
+/ships:
+  is: [errorsThrows]
+  description: This's list of ships page from StarTrack
+  get:
+    description: Shows table of ships
+    responses:
+      200:
+        description: Received list of ships
+        body:
+          application/json:
+            description: List<Ships> json
+            example:
+              type: Ship[]
+              example: !include examples/ship.json
+  post:
+    description: Adding new ship in DB
+    body:
+      application/json:
+        type: typeShip
+        example: !include examples/ship.json
+    responses:
+      201:
+        description: Ship successfully added
+
+/ships/{idShip}:
+  is: [errorsThrows]
+  description: Operations on 1 ship
+  get:
+    displayName: Get ship with ID x
+    description: Get ship with ID #
+    responses:
+      200:
+        body:
+          application/json:
+            type: typeShip
+            example: !include examples/ship.json
+  put:
+    description: Update ship
+    body:
+      application/json:
+        type: typeShip
+        example: !include examples/ship.json
+    responses:
+      204:
+        description: Ship was updated
+  delete:
+    description: Delete ship with that ID
+    responses:
+      204:
+        description: Successfully deleted
+/ships/{idShip}/members:
+  is: [errorsThrows]
+  description: Retrieves list of crew members
+  get:
+    queryParameters:
+      noShip?: boolean
+    description: GET retrieves list of crew members for a specific ship
+    responses:
+      200:
+        description: Received list of crew members
+        body:
+          application/json:
+            description: List<CrewMember> json
+            example:
+              type: CrewMember[]
+              example: !include examples/crewMember.json
+  post:
+    description: Add new crew member to this ship
+    body:
+      application/json:
+        type: typeMember
+        example: !include examples/crewMember.json
+    responses:
+      201:
+        description: Crew member successfully added
+/ships/{idShip}/members/{idMember}:
+  description: Operations on 1 member
+  put:
+    description: Update crew member
+    body:
+      application/json:
+        type: typeMember
+        example: !include examples/crewMember.json
+    responses:
+      204:
+        description: Crew member successfully updated
+  delete:
+    description: Delete crew member
+    responses:
+      204:
+        description: Crew member successfully removed

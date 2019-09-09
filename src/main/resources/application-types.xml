@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="JSON_ship" format="json">
+      <types:shape format="weave" example="api/examples/ship.json"><![CDATA[%dw 2.0
+
+type JSON_ship = {|
+  idShip: Number {"typeId": "int"}, 
+  nameShip: String, 
+  crewSize: Number {"typeId": "int"}, 
+  speed: Number {"typeId": "double"}, 
+  members: Array<{|    idMember: Number {"typeId": "int"},     nameMember: String,     rank: Number {"typeId": "int"},     idShip: Number {"typeId": "int"}  |}>
+|} {"example": "{\"idShip\":1,\"nameShip\":\"USS Enterprise\",\"crewSize\":600,\"speed\":9.8,\"members\":[{\"idMember\":1,\"nameMember\":\"Capitan Kirk\",\"rank\":10,\"idShip\":1},{\"idMember\":2,\"nameMember\":\"Capitan Spok\",\"rank\":10,\"idShip\":1}]}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="JSON_member" format="json">
+      <types:shape format="weave" example="api/examples/crewMember.json"><![CDATA[%dw 2.0
+
+type JSON_member = {|
+  idMember: Number {"typeId": "int"}, 
+  nameMember: String, 
+  rankMember: Number {"typeId": "int"}, 
+  idShip: Number {"typeId": "int"}
+|} {"example": "{\"idMember\":1,\"nameMember\":\"Capitan Kirk\",\"rankMember\":10,\"idShip\":1}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#8af87017-07ad-487c-94ed-0341326d8f4b">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="JSON_member[]"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#c781bd06-02bb-4f4f-8334-5891b9445d6f">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="JSON_ship"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#8e3473e2-f92c-4872-9a40-316b821984bd">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="JSON_ship[]"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

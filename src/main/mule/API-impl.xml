@@ -23,6 +23,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
+//fun checkContains(idShip: String) = 
+//if (payload."1".payload contains(idShip))
+//true
+//else
+//''
 ---
 using (ships = payload."0".payload map ( payload01 , indexOfPayload01 ) -> {
 	idShip: payload01.idship,
@@ -30,13 +35,13 @@ using (ships = payload."0".payload map ( payload01 , indexOfPayload01 ) -> {
 	crewSize: payload01.crewsize default 0,
 	speed: payload01.speed default 0,
 
-	members:	 payload."0".payload filter ($.idship == payload."0".payload.idShip)
-	 map ((payload01 , indexOfPayload01) -> {
-		idMember: payload01.idmember,
-		nameMember: payload01.namemember,
-		rank: payload01.rankmember,
-		idShip: payload01.idship
-	}) 
+	members:	 payload."1".payload filter ($.idship == payload01.idship)
+		 map ((payload01 , indexOfPayload01) -> {
+			idMember: payload01.idmember,
+			nameMember: payload01.namemember,
+			rank: payload01.rankmember,
+			idShip: payload01.idship
+	})
 })
 ships]]></ee:set-payload>
 			</ee:message>
@@ -73,7 +78,6 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="352b26da-7393-4e13-ab9f-a47f3d671768" />
 	</flow>
 	<flow name="getMembersFlow" doc:id="f7e1719c-c9da-4498-a54a-61d912da3452" >
 		<db:select doc:name="SEL_WHERE idShip = Member" doc:id="57f75004-540a-4abe-8657-647221e342fe" config-ref="Database_Config">
@@ -93,7 +97,6 @@ payload map ( payload01 , indexOfPayload01 ) -> {
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="c2543da8-deaf-4fba-98d2-9851548bbe19" />
 		<error-handler >
 			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="35d24109-8bb1-4ce7-9bc4-fb325757a138" >
 				<logger level="INFO" doc:name="Logger" doc:id="e5742310-a3b6-430a-be02-b972b4a210df" message="#['xxxxxxxxxxxxxxxx ' ++ attributes.uriParams.idShip as Number]"/>

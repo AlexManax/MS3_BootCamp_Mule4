@@ -119,38 +119,16 @@ output application/json
         </error-handler>
     </flow>
     <flow name="put:\ships\(idShip)\members\(idMember):application\json:SpaceSips-config">
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
-            <ee:variables>
-                <ee:set-variable variableName="idShip">attributes.uriParams.idShip</ee:set-variable>
-                <ee:set-variable variableName="idMember">attributes.uriParams.idMember</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <logger level="INFO" message="put:\ships\(idShip)\members\(idMember):application\json:SpaceSips-config" />
+		<flow-ref doc:name="Flow Reference" doc:id="fd800aa4-7a76-4b32-a44a-eb1b23d2acf3" name="putMember"/>
     </flow>
     <flow name="put:\ships\(idShip):application\json:SpaceSips-config">
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
-            <ee:variables>
-                <ee:set-variable variableName="idShip">attributes.uriParams.idShip</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <logger level="INFO" message="put:\ships\(idShip):application\json:SpaceSips-config" />
+		<flow-ref doc:name="Flow Reference" doc:id="3f863d3c-5e3b-4154-a593-1b7436bd0a4c" name="putShip"/>
     </flow>
     <flow name="delete:\ships\(idShip):SpaceSips-config">
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
-            <ee:variables>
-                <ee:set-variable variableName="idShip">attributes.uriParams.idShip</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <logger level="INFO" message="delete:\ships\(idShip):SpaceSips-config" />
+		<flow-ref doc:name="Flow Reference" doc:id="d58207f3-d012-4961-a9ed-c7ec3b9d0990" name="deleteShip"/>
     </flow>
     <flow name="delete:\ships\(idShip)\members\(idMember):SpaceSips-config">
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
-            <ee:variables>
-                <ee:set-variable variableName="idShip">attributes.uriParams.idShip</ee:set-variable>
-                <ee:set-variable variableName="idMember">attributes.uriParams.idMember</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <logger level="INFO" message="delete:\ships\(idShip)\members\(idMember):SpaceSips-config" />
+		<flow-ref doc:name="Flow Reference" doc:id="e8f27625-aecd-48c9-b2ae-a4301ca02c74" name="deleteMember"/>
     </flow>
     <flow name="get:\ships:SpaceSips-config">
         <flow-ref doc:name="Flow Ref - getAllShipsFlow" doc:id="2982df1f-4fcd-4534-9de0-e5f094f16524" name="getAllShipsFlow"/>
@@ -162,14 +140,9 @@ output application/json
 		<flow-ref doc:name="Flow Ref - getMembersFlow" doc:id="e8efd6ea-1381-4207-aec3-bdc37d305326" name="getMembersFlow"/>
     </flow>
     <flow name="post:\ships\(idShip)\members:application\json:SpaceSips-config">
-        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
-            <ee:variables>
-                <ee:set-variable variableName="idShip">attributes.uriParams.idShip</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <logger level="INFO" message="post:\ships\(idShip)\members:application\json:SpaceSips-config" />
+		<flow-ref doc:name="Flow Reference" doc:id="788ee442-4731-47d2-86ea-91f390601121" name="postMember"/>
     </flow>
     <flow name="post:\ships:application\json:SpaceSips-config">
-        <logger level="INFO" message="post:\ships:application\json:SpaceSips-config" />
+		<flow-ref doc:name="Flow Reference" doc:id="b35afa38-d2bc-47ee-aa27-447b4f5076ac" name="postShip"/>
     </flow>
 </mule>

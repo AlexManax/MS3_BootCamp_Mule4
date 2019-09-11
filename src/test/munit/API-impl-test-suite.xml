@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<munit:config name="API-impl-test-suite.xml" />
+	<munit:test name="API-impl-test-suite-getAllShipsFlowTest" description="Test" doc:id="76e674e3-f7be-464c-8bb6-7f47cba07f68">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="fdab1144-dfe3-4cfc-8571-f07020b41efd" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="SEL_ALL = Ships" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[[ ['idShip':3, 'nameShip':'Kakashka', 'crewSize':6, 'speed':'10.1'] ]]"/>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="204d81bf-394d-4c5b-9401-17e2d4fbf62a" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="SEL_ALL = Members" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[[ ['rankmember':10.1, 'idship':3, 'idmember':6, 'namemember':'Montgomery Scott'] ]]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getAllShipsFlow" doc:id="18931671-d0bd-4ffe-b8ef-c9f75a3eb3b2" name="getAllShipsFlow"/>
+		</munit:execution>
+		<munit:validation>
+			<logger level="INFO" doc:name="Logger" doc:id="b1a07112-aef2-4364-8ec6-7baaf373aaaa" message="#[payload]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="API-impl-test-suite-getShipByIDFlowTest" description="Test" doc:id="5bd904e2-2ffa-4025-af47-1a78358ed279">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="cd44a3de-addb-4ca9-9a87-22dd3c619650" processor="db:select" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="SEL_WHERE idShip = Ship" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[[ ['idShip':3, 'nameShip':'Kakashka', 'crewSize':6, 'speed':'10.1'] ]]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="c9d7bf8b-35d7-45fc-bc82-61208a2d8539" processor="db:select" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="SEL_WHERE idShip = Member" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[[ ['rankmember':10.1, 'idship':3, 'idmember':6, 'namemember':'Montgomery Scott'] ]]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getShipByIDFlow" doc:id="a7f881ed-9661-4141-9a9b-1bbf5d5942b9" name="getShipByIDFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="094ba102-4dac-4f7c-a842-af2fd2495fd9" message="#[payload]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="API-impl-test-suite-getMembersFlowTest" description="Test" doc:id="d48d5d63-ba35-4332-85e8-f64dd78239b5">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="b9394d0f-348a-4cf4-8ad1-38958fd282d0" processor="db:select" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="SEL_WHERE idShip = Member" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[[ ['rankmember':10.1, 'idship':3, 'idmember':6, 'namemember':'Montgomery Scott'] ]]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getMembersFlow" doc:id="50025b53-ba63-4ea7-98e0-5fcf29e9a9d8" name="getMembersFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="3a7abf36-3a91-433c-aac3-5981a26f0427" message="#[payload]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="API-impl-test-suite-postMemberTest" description="Test" doc:id="50537ac9-86fd-4ca4-8e08-1ca755abd912">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="1b494ef0-a818-4545-aeac-c68f7309f7b4" processor="db:insert" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="Insert Member" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[[ ['rankmember':10.1, 'idship':3, 'idmember':6, 'namemember':'Montgomery Scott'] ]]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to postMember" doc:id="2aa14bf7-8344-4cd2-b721-ebeae8a6c1ac" name="postMember"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="c18272ff-8b1d-4156-acbb-40e1f2f8c5b7" message="#[payload]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="API-impl-test-suite-postShipTest" description="Test" doc:id="2a147ed9-5f96-431a-bcdf-165409c530b9">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="f6acb1ef-68da-4440-93ee-a8bfc1d7d114" processor="db:insert" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="Insert Ship" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[[ ['rankmember':10.1, 'idship':3, 'idmember':6, 'namemember':'Montgomery Scott'] ]]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to postShip" doc:id="23e6880d-f0e4-40ac-a003-2b6b82d0c232" name="postShip"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="7607458d-aa7d-4677-a8c6-73f0da042848" message="#[payload]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="API-impl-test-suite-putMemberTest" description="Test" doc:id="854cb9e5-7182-40c8-b2a7-181e96509446">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="550373e9-49f6-4753-88e7-ffc5f0d101df" processor="db:update" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="Update Member" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[[ ['rankmember':10.1, 'idship':3, 'idmember':6, 'namemember':'Montgomery Scott'] ]]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to putMember" doc:id="096407fa-e133-4e3f-80c9-927ac42c0f0b" name="putMember"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="3709ab07-520c-433b-85be-8881bb459b12" message="#[payload]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="API-impl-test-suite-putShipTest" description="Test" doc:id="500bd8ac-2ef2-4a50-9650-a02023bb4010">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="49ba3f0c-5db8-43f8-af76-78777da5ed85" processor="db:update" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="Update Ship" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[[ ['rankmember':10.1, 'idship':3, 'idmember':6, 'namemember':'Montgomery Scott'] ]]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to putShip" doc:id="4277ccb4-c98e-4f15-8a52-9fd3b6038c03" name="putShip"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="a9c11249-0f06-4246-8504-0b125e08acce" message="#[payload]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="API-impl-test-suite-deleteShipTest" description="Test" doc:id="d8dfd699-f649-4724-896f-fa17156fec9f">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="9c580811-9070-4948-b019-2149a933f2b8" processor="db:delete" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="Delete Ship" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[[ ['rankmember':10.1, 'idship':3, 'idmember':6, 'namemember':'Montgomery Scott'] ]]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to deleteShip" doc:id="1485f3db-114e-4dfa-8ed4-d95b3f4a8029" name="deleteShip"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="32c70568-ba76-4fac-8d68-071bcb423b3f" message="#[payload]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="API-impl-test-suite-deleteMemberTest" description="Test" doc:id="49be206d-c4b8-41c1-b30b-019199ad5ac0">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="55ee1ff5-7732-461a-b456-0c1e448eba06" processor="db:delete" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute attributeName="doc:name" whereValue="Delete Member" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[[ ['rankmember':10.1, 'idship':3, 'idmember':6, 'namemember':'Montgomery Scott'] ]]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to deleteMember" doc:id="e2922e63-d4e0-4b24-993f-feb8aa3d0c4d" name="deleteMember"/>
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="081ea141-b372-4998-b222-855ec79bc85f" message="#[payload]" />
+		</munit:validation>
+	</munit:test>
+
+</mule>

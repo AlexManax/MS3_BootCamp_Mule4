@@ -1,0 +1,10 @@
+{
+"type" : "CrewMember[]",
+"example" : "{
+  "idMember":1,
+  "nameMember": "Capitan Kirk",
+  "rankMember":10,
+  "idShip": 1
+}
+"
+}

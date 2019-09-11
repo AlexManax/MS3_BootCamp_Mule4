@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
 	<flow name="getAllShipsFlow" doc:id="1b688f3d-b521-4d38-9bbd-c8fd564bea36" >
 		<scatter-gather doc:name="Scatter-Gather" doc:id="9e4317d8-f72f-47a7-a586-f3c9730fbf74" >
 			<route >
@@ -29,18 +29,18 @@ output application/json
 //else
 //''
 ---
-using (ships = payload."0".payload map ( payload01 , indexOfPayload01 ) -> {
-	idShip: payload01.idship,
-	nameShip: payload01.nameship default "",
-	crewSize: payload01.crewsize default 0,
-	speed: payload01.speed default 0,
+using (ships = payload."0".payload map ( ship , indexOfPayload01 ) -> {
+	idShip: ship.idship,
+	nameShip: ship.nameship default "",
+	crewSize: ship.crewsize default 0,
+	speed: ship.speed default 0,
 
-	members:	 payload."1".payload filter ($.idship == payload01.idship)
-		 map ((payload01 , indexOfPayload01) -> {
-			idMember: payload01.idmember,
-			nameMember: payload01.namemember,
-			rank: payload01.rankmember,
-			idShip: payload01.idship
+	members:	 payload."1".payload filter ($.idship == ship.idship)
+		 map ((member , indexOfPayload02) -> {
+			idMember: member.idmember,
+			nameMember: member.namemember,
+			rank: member.rankmember,
+			idShip: member.idship
 	})
 })
 ships]]></ee:set-payload>
@@ -48,7 +48,7 @@ ships]]></ee:set-payload>
 		</ee:transform>
 	</flow>
 	<flow name="getShipByIDFlow" doc:id="4c5b64b2-aa0c-4a1e-957b-c15d98afbc84" >
-		<scatter-gather doc:name="Scatter-Gather" doc:id="8cd86169-2411-4acc-824c-ba5bfe785a4a" >
+		<scatter-gather doc:name="Scatter-Gather" doc:id="2e0f495b-040a-4cf3-87d3-43f5b9c40912" >
 			<route >
 				<db:select doc:name="SEL_WHERE idShip = Ship" doc:id="4aa1e5e5-6dd2-4bf4-bef0-a5a2478b9e3f" config-ref="Database_Config">
 			<db:sql>SELECT * FROM ships WHERE idship = :idShip</db:sql>
@@ -97,11 +97,6 @@ payload map ( payload01 , indexOfPayload01 ) -> {
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<error-handler >
-			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="35d24109-8bb1-4ce7-9bc4-fb325757a138" >
-				<logger level="INFO" doc:name="Logger" doc:id="e5742310-a3b6-430a-be02-b972b4a210df" message="#['xxxxxxxxxxxxxxxx ' ++ attributes.uriParams.idShip as Number]"/>
-			</on-error-continue>
-		</error-handler>
 	</flow>
 	<flow name="postMember" doc:id="f24fc498-1204-4006-a4d8-0995d3c3a0b4" >
 		<db:insert doc:name="Insert Member" doc:id="b3fca4f2-7fc3-4e7f-9a9b-f1011d39abde" config-ref="Database_Config">
@@ -161,4 +156,5 @@ WHERE idShip = :idShip</db:sql>
 			<db:input-parameters ><![CDATA[#[idMember: attributes.uriParams.idMember]]]></db:input-parameters>
 		</db:delete>
 	</flow>
+
 </mule>

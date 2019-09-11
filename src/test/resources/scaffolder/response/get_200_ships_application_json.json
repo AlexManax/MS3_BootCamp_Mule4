@@ -1,0 +1,359 @@
+[
+  {
+    "idShip": 1,
+    "nameShip": "USS Voyager x",
+    "crewSize": 5,
+    "speed": 9.9,
+    "members": [
+      {
+        "idMember": 2,
+        "nameMember": "Xsdvd",
+        "rank": 3,
+        "idShip": 1
+      },
+      {
+        "idMember": 15,
+        "nameMember": "James T. Kirk Alex",
+        "rank": 10,
+        "idShip": 1
+      },
+      {
+        "idMember": 16,
+        "nameMember": "James T. Kirk Alex",
+        "rank": 10,
+        "idShip": 1
+      },
+      {
+        "idMember": 17,
+        "nameMember": "James T. Kirk Alex",
+        "rank": 10,
+        "idShip": 1
+      },
+      {
+        "idMember": 18,
+        "nameMember": "James T. Kirk Alex",
+        "rank": 10,
+        "idShip": 1
+      },
+      {
+        "idMember": 19,
+        "nameMember": "James T. Kirk Alex",
+        "rank": 10,
+        "idShip": 1
+      },
+      {
+        "idMember": 20,
+        "nameMember": "James T. Kirk Alex",
+        "rank": 10,
+        "idShip": 1
+      },
+      {
+        "idMember": 21,
+        "nameMember": "James T. Kirk Alex",
+        "rank": 10,
+        "idShip": 1
+      },
+      {
+        "idMember": 22,
+        "nameMember": "James T. Kirk Alex",
+        "rank": 10,
+        "idShip": 1
+      },
+      {
+        "idMember": 23,
+        "nameMember": "James T. Kirk Alex",
+        "rank": 10,
+        "idShip": 1
+      },
+      {
+        "idMember": 24,
+        "nameMember": "James T. Kirk Alex",
+        "rank": 10,
+        "idShip": 1
+      },
+      {
+        "idMember": 25,
+        "nameMember": "James T. Kirk Alex",
+        "rank": 10,
+        "idShip": 1
+      },
+      {
+        "idMember": 26,
+        "nameMember": "Capitan Kirk",
+        "rank": 10,
+        "idShip": 1
+      },
+      {
+        "idMember": 27,
+        "nameMember": "Capitan Kirk",
+        "rank": 10,
+        "idShip": 1
+      },
+      {
+        "idMember": 28,
+        "nameMember": "Capitan Kirk",
+        "rank": 10,
+        "idShip": 1
+      },
+      {
+        "idMember": 29,
+        "nameMember": "Capitan Kirk",
+        "rank": 10,
+        "idShip": 1
+      },
+      {
+        "idMember": 30,
+        "nameMember": "Capitan Kirk",
+        "rank": 10,
+        "idShip": 1
+      },
+      {
+        "idMember": 31,
+        "nameMember": "Capitan Kirk",
+        "rank": 10,
+        "idShip": 1
+      }
+    ]
+  },
+  {
+    "idShip": 2,
+    "nameShip": "USS Enterprise-D",
+    "crewSize": 5,
+    "speed": 6.0,
+    "members": [
+      {
+        "idMember": 3,
+        "nameMember": "Montgomery Scott",
+        "rank": 10,
+        "idShip": 2
+      },
+      {
+        "idMember": 4,
+        "nameMember": "Nyota Uhura",
+        "rank": 10,
+        "idShip": 2
+      }
+    ]
+  },
+  {
+    "idShip": 3,
+    "nameShip": "USS Enterprise-E",
+    "crewSize": 5,
+    "speed": 7.0,
+    "members": [
+      {
+        "idMember": 5,
+        "nameMember": "Hikaru Sulu",
+        "rank": 10,
+        "idShip": 3
+      },
+      {
+        "idMember": 6,
+        "nameMember": "Pavel Chekov",
+        "rank": 10,
+        "idShip": 3
+      }
+    ]
+  },
+  {
+    "idShip": 4,
+    "nameShip": "USS Enterprise",
+    "crewSize": 5,
+    "speed": 9.7,
+    "members": [
+      {
+        "idMember": 7,
+        "nameMember": "Christine Chapel",
+        "rank": 10,
+        "idShip": 4
+      },
+      {
+        "idMember": 8,
+        "nameMember": "Janice Rand",
+        "rank": 10,
+        "idShip": 4
+      },
+      {
+        "idMember": 9,
+        "nameMember": "Sarek",
+        "rank": 10,
+        "idShip": 4
+      }
+    ]
+  },
+  {
+    "idShip": 5,
+    "nameShip": "USS Defiant",
+    "crewSize": 5,
+    "speed": 9.9,
+    "members": [
+      {
+        "idMember": 10,
+        "nameMember": "Amanda Grayson",
+        "rank": 10,
+        "idShip": 5
+      }
+    ]
+  },
+  {
+    "idShip": 6,
+    "nameShip": "USS Voyager",
+    "crewSize": 5,
+    "speed": 9.9,
+    "members": [
+      {
+        "idMember": 11,
+        "nameMember": "Spoke",
+        "rank": 10,
+        "idShip": 6
+      }
+    ]
+  },
+  {
+    "idShip": 7,
+    "nameShip": "Enterprise NX-01",
+    "crewSize": 5,
+    "speed": 3.5,
+    "members": []
+  },
+  {
+    "idShip": 8,
+    "nameShip": "USS",
+    "crewSize": 10,
+    "speed": 9.9,
+    "members": []
+  },
+  {
+    "idShip": 9,
+    "nameShip": "USS",
+    "crewSize": 10,
+    "speed": 9.9,
+    "members": []
+  },
+  {
+    "idShip": 10,
+    "nameShip": "USS",
+    "crewSize": 10,
+    "speed": 9.9,
+    "members": []
+  },
+  {
+    "idShip": 11,
+    "nameShip": "USS",
+    "crewSize": 10,
+    "speed": 9.9,
+    "members": []
+  },
+  {
+    "idShip": 12,
+    "nameShip": "USS",
+    "crewSize": 10,
+    "speed": 9.9,
+    "members": []
+  },
+  {
+    "idShip": 14,
+    "nameShip": "USS",
+    "crewSize": 10,
+    "speed": 9.9,
+    "members": []
+  },
+  {
+    "idShip": 15,
+    "nameShip": "USS",
+    "crewSize": 10,
+    "speed": 9.9,
+    "members": []
+  },
+  {
+    "idShip": 16,
+    "nameShip": "USS",
+    "crewSize": 10,
+    "speed": 9.9,
+    "members": []
+  },
+  {
+    "idShip": 17,
+    "nameShip": "USS",
+    "crewSize": 10,
+    "speed": 9.9,
+    "members": []
+  },
+  {
+    "idShip": 18,
+    "nameShip": "USS",
+    "crewSize": 10,
+    "speed": 9.9,
+    "members": []
+  },
+  {
+    "idShip": 19,
+    "nameShip": "USS",
+    "crewSize": 10,
+    "speed": 9.9,
+    "members": []
+  },
+  {
+    "idShip": 20,
+    "nameShip": "USS",
+    "crewSize": 10,
+    "speed": 9.9,
+    "members": []
+  },
+  {
+    "idShip": 21,
+    "nameShip": "USS",
+    "crewSize": 10,
+    "speed": 9.9,
+    "members": []
+  },
+  {
+    "idShip": 22,
+    "nameShip": "USS",
+    "crewSize": 10,
+    "speed": 9.9,
+    "members": []
+  },
+  {
+    "idShip": 23,
+    "nameShip": "USS Enterprise",
+    "crewSize": 600,
+    "speed": 9.8,
+    "members": []
+  },
+  {
+    "idShip": 24,
+    "nameShip": "USS Enterprise",
+    "crewSize": 600,
+    "speed": 9.8,
+    "members": []
+  },
+  {
+    "idShip": 25,
+    "nameShip": "USS Enterprise",
+    "crewSize": 600,
+    "speed": 9.8,
+    "members": []
+  },
+  {
+    "idShip": 26,
+    "nameShip": "USS Enterprise",
+    "crewSize": 600,
+    "speed": 9.8,
+    "members": []
+  },
+  {
+    "idShip": 27,
+    "nameShip": "USS Enterprise",
+    "crewSize": 600,
+    "speed": 9.8,
+    "members": []
+  },
+  {
+    "idShip": 28,
+    "nameShip": "USS Enterprise",
+    "crewSize": 600,
+    "speed": 9.8,
+    "members": []
+  }
+]

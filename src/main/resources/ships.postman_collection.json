@@ -1,0 +1,377 @@
+{
+	"info": {
+		"_postman_id": "1f303342-06bf-43a7-bded-df3725c37dfa",
+		"name": "ships",
+		"description": "Ships CRUD DB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:8080/ships send entity",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"idShip\": 0,\n        \"nameShip\": \"USS\",\n        \"crewSize\": 10,\n        \"speed\": 9.9,\n        \"members\": []\n    }"
+				},
+				"url": {
+					"raw": "localhost:8081/ships",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"ships"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/ships",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "root",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8081/ships",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"ships"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/ships/1",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "root",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"nameShip\": \"USS Voyager x\",\n        \"crewSize\": 5,\n        \"speed\": 9.9\n    }"
+				},
+				"url": {
+					"raw": "localhost:8081/ships/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"ships",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/ships/1",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "root",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"idMember\":2,\n  \"nameMember\": \"Capitan Kirk\",\n  \"rank\":10,\n  \"idShip\": 1\n}"
+				},
+				"url": {
+					"raw": "localhost:8081/ships/12/members/14",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"ships",
+						"12",
+						"members",
+						"14"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/ships/1/members",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "root",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"idMember\": 1,\n        \"nameMember\": \"James T. Kirk Alex\",\n        \"rankMember\": 10,\n        \"idShip\": 1\n    }"
+				},
+				"url": {
+					"raw": "localhost:8081/ships/1/members",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"ships",
+						"1",
+						"members"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/ships/1/members/1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "root",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"idMember\": 5,\n  \"nameMember\": \"Capitan Kirk 5\",\n  \"rank\": 5,\n  \"idShip\": 3\n}"
+				},
+				"url": {
+					"raw": "localhost:8081/ships/1/members",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"ships",
+						"1",
+						"members"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/ships/1 Copy",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "root",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nameMember\": \"Xsdvd\",\n  \"rankMember\": 3,\n  \"idShip\": 1\n}"
+				},
+				"url": {
+					"raw": "localhost:8081/ships/2/members/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"ships",
+						"2",
+						"members",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/ships/1 Copy",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "root",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"idMember\":2,\n  \"nameMember\": \"Capitan Kirk\",\n  \"rank\":10,\n  \"idShip\": 1\n}"
+				},
+				"url": {
+					"raw": "localhost:8081/ships/1/members/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"ships",
+						"1",
+						"members",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "xxx",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "Alex",
+				"type": "string"
+			}
+		]
+	}
+}

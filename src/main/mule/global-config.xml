@@ -12,11 +12,18 @@ http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/mu
 http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 	<apikit:config name="SpaceSips-config" raml="SpaceSips.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
 		<db:config name="Database_Config" doc:name="Database Config" doc:id="014703fd-7fda-4ccd-9417-725bb6e363af" >
-		<db:my-sql-connection host="localhost" port="3306" user="root" password="rootroot" database="starTrackShips?serverTimezone=UTC" />
+		<db:my-sql-connection host="${db.host}" port="${db.port}" user="${db.user}" password="${db.password}" database="${db.database}" />
 	</db:config>
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="07c84cf5-01fa-4a38-a33e-ed5798ab12f7" >
 		<http:listener-connection host="0.0.0.0" port="8081" >
 		</http:listener-connection>
 	</http:listener-config>
+	<configuration doc:name="Configuration" doc:id="a0d6787a-cc6a-4235-ba88-386ca57c1840" defaultErrorHandler-ref="global-configError_Handler" />
+	<configuration-properties doc:name="Configuration properties" doc:id="419fd5a2-3835-44f3-9c0e-bd4ce9866ddb" file="config.yaml" />
+	<error-handler name="global-configError_Handler" doc:id="336c10f3-cd15-4bc8-9768-e118a81c9d02" >
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="3a953a32-47ef-4964-863e-1238ea1552b0" type="ANY" when='error.errors.errorType=="DB:BAD_SQL_SYNTAX" or error.errors.errorType=="EXPRESSION"'>
+			<set-variable value="405" doc:name="Set httpStatus" doc:id="eb72ef72-d1c7-4e45-ac9d-5944155a5ed1" variableName="httpStatus" />
+		</on-error-continue>
+	</error-handler>
 	
 </mule>

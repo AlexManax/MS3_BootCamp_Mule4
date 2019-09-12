@@ -10,7 +10,8 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		<scatter-gather doc:name="Scatter-Gather" doc:id="9e4317d8-f72f-47a7-a586-f3c9730fbf74" >
 			<route >
 				<db:select doc:name="SEL_ALL = Ships" doc:id="8ac3681d-e61e-44a9-bcf0-19517fefb361" config-ref="Database_Config">
-			<db:sql>SELECT * FROM ships</db:sql>
+			<error-mapping sourceType="DB:BAD_SQL_SYNTAX" targetType="APP:Sintax" />
+					<db:sql>SELECT * FROM ships</db:sql>
 		</db:select>
 			</route>
 			<route >
@@ -21,29 +22,7 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 		</scatter-gather>
 		<ee:transform doc:name="DBs to JSON" doc:id="8e3473e2-f92c-4872-9a40-316b821984bd" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
-//fun checkContains(idShip: String) = 
-//if (payload."1".payload contains(idShip))
-//true
-//else
-//''
----
-using (ships = payload."0".payload map ( ship , indexOfPayload01 ) -> {
-	idShip: ship.idship,
-	nameShip: ship.nameship default "",
-	crewSize: ship.crewsize default 0,
-	speed: ship.speed default 0,
-
-	members:	 payload."1".payload filter ($.idship == ship.idship)
-		 map ((member , indexOfPayload02) -> {
-			idMember: member.idmember,
-			nameMember: member.namemember,
-			rank: member.rankmember,
-			idShip: member.idship
-	})
-})
-ships]]></ee:set-payload>
+				<ee:set-payload resource="dw/DW_ships.dwl" />
 			</ee:message>
 		</ee:transform>
 	</flow>
@@ -61,21 +40,7 @@ ships]]></ee:set-payload>
 		</scatter-gather>
 		<ee:transform doc:name="DBs to JSON" doc:id="c781bd06-02bb-4f4f-8334-5891b9445d6f" >
 			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-	idShip: payload."0".payload[0].idship,
-	nameShip: payload."0".payload[0].nameship default "",
-	crewSize: payload."0".payload[0].crewsize default 0,
-	speed: payload."0".payload[0].speed default 0,
-	members: payload."1".payload map ( payload01 , indexOfPayload01 ) -> {
-		idMember: payload01.idMember,
-		nameMember: payload01.nameMember,
-		rank: payload01.rankMember,
-		idShip: payload01.idShip
-	}
-}]]></ee:set-payload>
+				<ee:set-payload resource="dw/DW_ship.dwl" />
 			</ee:message>
 		</ee:transform>
 	</flow>
@@ -86,20 +51,12 @@ output application/json
 		</db:select>
 		<ee:transform doc:name="DB to JSON" doc:id="8af87017-07ad-487c-94ed-0341326d8f4b">
 			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-payload map ( payload01 , indexOfPayload01 ) -> {
-	idMember: payload01.idmember,
-	nameMember: payload01.namemember default "",
-	rankMember: payload01.rankmember default 0,
-	idShip: payload01.idship default 0
-}]]></ee:set-payload>
+				<ee:set-payload resource="dw/DW_member.dwl" />
 			</ee:message>
 		</ee:transform>
 	</flow>
 	<flow name="postMember" doc:id="f24fc498-1204-4006-a4d8-0995d3c3a0b4" >
-		<db:insert doc:name="Insert Member" doc:id="b3fca4f2-7fc3-4e7f-9a9b-f1011d39abde" config-ref="Database_Config">
+		<db:insert doc:name="INSERT Member" doc:id="b3fca4f2-7fc3-4e7f-9a9b-f1011d39abde" config-ref="Database_Config">
 			<db:sql >INSERT INTO crewmembers(namemember, rankmember, idship) VALUE (:nameMember, :rankMember, :idShip)</db:sql>
 			<db:input-parameters ><![CDATA[#[{
 	nameMember: payload.nameMember,
@@ -109,7 +66,7 @@ payload map ( payload01 , indexOfPayload01 ) -> {
 		</db:insert>
 	</flow>
 	<flow name="postShip" doc:id="442ddbb6-ddf9-4770-8a43-1bde036c86cc" >
-		<db:insert doc:name="Insert Ship" doc:id="8a97eb51-c0ed-432f-bc5e-792412de7cfe" config-ref="Database_Config">
+		<db:insert doc:name="INSERT Ship" doc:id="8a97eb51-c0ed-432f-bc5e-792412de7cfe" config-ref="Database_Config">
 			<db:sql >INSERT INTO ships(nameship, crewsize, speed) VALUE (:nameShip, :crewSize, :speed)</db:sql>
 			<db:input-parameters ><![CDATA[#[{
 	nameShip: payload.nameShip,
@@ -119,7 +76,7 @@ payload map ( payload01 , indexOfPayload01 ) -> {
 		</db:insert>
 	</flow>
 	<flow name="putMember" doc:id="a8f13c2b-2215-489d-aebd-164bb7a528b3" >
-		<db:update doc:name="Update Member" doc:id="8d60bbbe-c00c-4bf1-be33-6292d7fb1714" config-ref="Database_Config">
+		<db:update doc:name="UPDATE Member" doc:id="8d60bbbe-c00c-4bf1-be33-6292d7fb1714" config-ref="Database_Config">
 			<db:sql >UPDATE crewmembers 
 SET namemember = :nameMember, rankmember = :rankMember, idship = :idShip 
 WHERE idmember = :idMember</db:sql>
@@ -132,7 +89,7 @@ WHERE idmember = :idMember</db:sql>
 		</db:update>
 	</flow>
 	<flow name="putShip" doc:id="fba17959-0fd5-4ed9-8097-84362c881b16" >
-		<db:update doc:name="Update Ship" doc:id="3ff78d3c-786a-4238-b330-e2b9fab00de5" config-ref="Database_Config" >
+		<db:update doc:name="UPDATE Ship" doc:id="3ff78d3c-786a-4238-b330-e2b9fab00de5" config-ref="Database_Config" >
 			<db:sql >UPDATE ships 
 SET nameship = :nameShip, crewsize = :crewSize, speed = :speed 
 WHERE idShip = :idShip</db:sql>
@@ -145,13 +102,13 @@ WHERE idShip = :idShip</db:sql>
 		</db:update>
 	</flow>
 	<flow name="deleteShip" doc:id="1731b50a-5919-48b6-8ceb-2e1b35b0eec2" >
-		<db:delete doc:name="Delete Ship" doc:id="2651c566-60d4-4cdd-b995-2daae4c036da" config-ref="Database_Config">
+		<db:delete doc:name="DELETE Ship" doc:id="2651c566-60d4-4cdd-b995-2daae4c036da" config-ref="Database_Config">
 			<db:sql >DELETE FROM ships WHERE idship = :idShip</db:sql>
 			<db:input-parameters ><![CDATA[#[idShip: attributes.uriParams.idShip]]]></db:input-parameters>
 		</db:delete>
 	</flow>
 	<flow name="deleteMember" doc:id="c44e72cc-e06d-4535-b64d-247b367dd92d" >
-		<db:delete doc:name="Delete Member" doc:id="ba78fe1d-4aea-4fcc-89cf-da845904046c" config-ref="Database_Config">
+		<db:delete doc:name="DELETE Member" doc:id="ba78fe1d-4aea-4fcc-89cf-da845904046c" config-ref="Database_Config">
 			<db:sql >DELETE FROM crewmembers WHERE idmember = :idMember</db:sql>
 			<db:input-parameters ><![CDATA[#[idMember: attributes.uriParams.idMember]]]></db:input-parameters>
 		</db:delete>
